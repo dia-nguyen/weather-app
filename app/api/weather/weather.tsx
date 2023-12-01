@@ -6149,7 +6149,6 @@ export async function GET(location:string, type:string) {
     const response = await fetch(url)
 
     if (!response.ok) {
-      console.log('response',response);
 
       if (response.status === 429) {
         if (type === "realtime") {

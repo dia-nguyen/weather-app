@@ -13,9 +13,9 @@ interface CurrentWeatherProps {
 
 export default function CurrentWeather({weather}:CurrentWeatherProps) {
   return (
-    <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white">
+    <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white ">
       <div className="flex-grow">
-        <p className="text-2xl font-bold">{weather.dayOfWeek}</p>
+        <p className="text-2xl font-bold text-shadow-sm">{weather.dayOfWeek}</p>
         <p>{weather.date}</p>
         <p>{weather.location}</p>
       </div>

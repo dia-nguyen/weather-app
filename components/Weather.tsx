@@ -12,9 +12,9 @@ import Image from "next/image";
 
 
 export default function Weather() {
-  const [location, setLocation] = useState("vancouver");
+  const [location, setLocation] = useState("new york");
   const [forecast, setForecast] = useState();
-  const [background, setBackground] = useState("");
+  const [photo, setPhoto] = useState("");
   const [realTimeWeather, setRealTimeWeather] = useState<{date: string; dayOfWeek: string; location: string; temperature: string; weatherDescription: string, details: {
     precipitation: string,
     humidity: string,
@@ -40,8 +40,8 @@ export default function Weather() {
         const forecastResults = await fetchWeeklyForecast(location);
         setForecast(forecastResults);
 
-        const background = await fetchPhotos(location);
-        setBackground(background.results[0].urls.regular);
+        const photo = await fetchPhotos(location);
+        setPhoto(photo.results[1].urls.full);
       })();
 
       return
@@ -50,9 +50,10 @@ export default function Weather() {
 
 
   return (
-    <div className=" m-auto rounded-lg grid grid-cols-2 w-[750px] relative overflow-hidden shadow-lg">
+    <main className=" w-full h-screen grid  bg-cover bg-center" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(${photo})`}}>
+     <div className=" m-auto rounded-lg grid grid-cols-2 w-[750px] relative overflow-hidden shadow-lg">
       <div className="relative ">
-        <div className="absolute w-full h-full top-0 opacity-70 bg-cover bg-center"  style={{backgroundImage: `url(${background})`}}></div>
+        <div className="absolute w-full h-full top-0 opacity-70 bg-cover bg-center"  style={{backgroundImage: `url(${photo})`}}></div>
         {realTimeWeather?<CurrentWeatherBlock weather={realTimeWeather}/>:""}
       </div>
 
@@ -63,6 +64,6 @@ export default function Weather() {
 
       </div>
     </div>
-
+  </main>
   )
 };

@@ -56,7 +56,6 @@ export async function fetchWeeklyForecast(loc:string) {
   const forecast = await GET(loc, "forecast");
   const daily = forecast.timelines.daily
 
-  console.log('daily',daily);
 
   return daily.map((day)=> ({
     date: getCurrentDate(day.time),
