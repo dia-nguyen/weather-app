@@ -41,7 +41,8 @@ export default async function fetchCurrentWeather(loc:string) {
     dayOfWeek: currentDay,
     location: location.name.split(", ")[0],
     temperature: `${ data.values.temperature}°`,
-    weatherDescription: weatherDescription,
+    description: weatherDescription,
+    code: data.values.weatherCode,
     details: {
       precipitation: data.values.precipitationProbability,
       humidity: data.values.humidity,
@@ -55,11 +56,14 @@ export async function fetchWeeklyForecast(loc:string) {
   const forecast = await GET(loc, "forecast");
   const daily = forecast.timelines.daily
 
+  console.log('daily',daily);
+
   return daily.map((day)=> ({
     date: getCurrentDate(day.time),
     dayOfWeek: getCurrentDay(day.time),
     temperature: `${ day.values.temperatureAvg}°`,
-    weatherDescription: WEATHER_CODE_DESCRIPTIONS[day.values.weatherCodeMax]
+    description: WEATHER_CODE_DESCRIPTIONS[day.values.weatherCodeMax],
+    code: day.values.weatherCodeMax
   }))
 
 }

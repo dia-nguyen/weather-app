@@ -27,6 +27,7 @@ export default function Weather() {
     }
   });
 
+  console.log('realTimeWeather',realTimeWeather);
   const [forecast, setForecast] = useState()
 
   useEffect(() => {
