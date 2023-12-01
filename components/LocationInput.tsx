@@ -11,9 +11,10 @@ export default function LocationInput({handleClick}: LocationInputProps) {
     <form onSubmit={(e)=>{
       e.preventDefault();
       handleClick(query);
-    }}>
-      <input className="border p-2 w-[200px] text-black" value={query} onChange={((event) => setQuery(event.target.value))}/>
-      <button type="submit" className="border bg-blue-500 text-white p-2 border-blue-500">Update</button>
+    }}
+    className="w-full flex">
+      <input className="border w-full text-black text-sm px-3 py-1 flex-grow-1  rounded-tl-full rounded-bl-full" value={query} onChange={((event) => setQuery(event.target.value))}/>
+      <button type="submit" placeholder="location" className="border bg-blue-500 text-white border-blue-500 px-3 py-1 text-sm rounded-tr-full rounded-br-full">Update</button>
     </form>
   )
 }

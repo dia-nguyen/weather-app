@@ -8,7 +8,8 @@ export async function GET(location:string, type:string) {
     const response = await fetch(url)
 
     if (!response.ok) {
-      throw new Error("oops")
+      console.log('response',response);
+      throw new Error(`There's been a problem. Code: ${response.status}`)
     }
 
     return await response.json()

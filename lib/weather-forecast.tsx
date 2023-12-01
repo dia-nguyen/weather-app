@@ -42,11 +42,24 @@ export default async function fetchCurrentWeather(loc:string) {
     location: location.name.split(", ")[0],
     temperature: `${ data.values.temperature}°`,
     weatherDescription: weatherDescription,
+    details: {
+      precipitation: data.values.precipitationProbability,
+      humidity: data.values.humidity,
+      windSpeed: data.values.windSpeed
+    }
   }
 }
 
 
-export async function fetchDailyForecast(loc:string) {
-  const currentWeather = await GET(loc, "forecast");
-  console.log('currentWeather',currentWeather);
+export async function fetchWeeklyForecast(loc:string) {
+  const forecast = await GET(loc, "forecast");
+  const daily = forecast.timelines.daily
+
+  return daily.map((day)=> ({
+    date: getCurrentDate(day.time),
+    dayOfWeek: getCurrentDay(day.time),
+    temperature: `${ day.values.temperatureAvg}°`,
+    weatherDescription: WEATHER_CODE_DESCRIPTIONS[day.values.weatherCodeMax]
+  }))
+
 }
