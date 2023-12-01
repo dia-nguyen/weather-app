@@ -6164,3 +6164,15 @@ export async function GET(location:string, type:string) {
     return await response.json()
   }
 }
+
+// export async function GET(location:string, type:string) {
+//   if(location) {
+//     if (type === "realtime") {
+//       return DEMO_REALTIME_DATA
+//     }
+
+//     if (type === "forecast") {
+//       return DEMO_FORECAST_DATA
+//     }
+//   }
+// }

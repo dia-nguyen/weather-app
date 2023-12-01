@@ -1,9 +1,9 @@
 
 interface CurrentWeatherDetailsProps {
   details: {
-    precipitation: string,
-    humidity: string,
-    windSpeed: string,
+    precipitation: number,
+    humidity: number,
+    windSpeed: number,
   };
 }
 

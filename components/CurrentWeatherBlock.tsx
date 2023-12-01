@@ -7,7 +7,7 @@ interface CurrentWeatherProps {
     dayOfWeek: string,
     temperature: string,
     description: string
-    code: string
+    code: number
   };
 }
 
