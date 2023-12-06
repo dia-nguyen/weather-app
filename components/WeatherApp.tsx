@@ -39,7 +39,6 @@ import ErrorMessage from "./ErrorMessage";
 
 export default function Weather() {
   const [location, setLocation] = useState("vancouver");
-  const isInitialMount = useRef(true);
   const [forecast, setForecast] = useState<ForecastProps>({
     data: DEFAULT_FORECAST,
     isLoading: true,
@@ -52,41 +51,35 @@ export default function Weather() {
     errorMsg: ''
   });
 
+
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false; // Set to false after first render
-    } else {
-      if (location) {
-        // Set loading states for all data types
-        setRealTimeWeather(prev => ({ ...prev, isLoading: true }));
-        setForecast(prev => ({ ...prev, isLoading: true }));
+    if (location) {
+      // Set loading states for all data types
+      setRealTimeWeather(prev => ({ ...prev, isLoading: true }));
+      setForecast(prev => ({ ...prev, isLoading: true }));
 
-        const fetchData = async () => {
-          try {
-            // Fetch all necessary data
-            const realTimeResults = await fetchCurrentWeather(location);
-            const forecastResults = await fetchWeeklyForecast(location);
-            const photoResponse = await fetchPhotos(location);
+      const fetchData = async () => {
+        try {
+          // Fetch all necessary data
+          const realTimeResults = await fetchCurrentWeather(location);
+          const forecastResults = await fetchWeeklyForecast(location);
+          const photoResponse = await fetchPhotos(location);
 
-            console.log('realTimeResults',realTimeResults);
+          // Update state with fetched data
+          setRealTimeWeather({ data: realTimeResults, isLoading: false, errorMsg: '' });
+          setForecast({ data: forecastResults, isLoading: false, errorMsg: '' });
+          setPhoto(photoResponse.results[1].urls.full);
+        } catch (error: any) {
+          // Handle errors and update state accordingly
+          const errorMsg = error.message || 'Failed to fetch data';
+          setRealTimeWeather(prev => ({ ...prev, isLoading: false, errorMsg }));
+          setForecast(prev => ({ ...prev, isLoading: false, errorMsg }));
+        }
+      };
 
-            // Update state with fetched data
-            setRealTimeWeather({ data: realTimeResults, isLoading: false, errorMsg: '' });
-            setForecast({ data: forecastResults, isLoading: false, errorMsg: '' });
-            setPhoto(photoResponse.results[1].urls.full);
-          } catch (error: any) {
-            // Handle errors and update state accordingly
-            const errorMsg = error.message || 'Failed to fetch data';
-            setRealTimeWeather(prev => ({ ...prev, isLoading: false, errorMsg }));
-            setForecast(prev => ({ ...prev, isLoading: false, errorMsg }));
-          }
-        };
-
-        fetchData();
-      }
+      fetchData();
     }
   }, [location]);
-
 
   return (
     <main className=" w-full h-screen flex  bg-cover bg-center" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(${photo})`}}>

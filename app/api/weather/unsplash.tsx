@@ -7,7 +7,6 @@ export async function fetchPhotos(query: string) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.log('response', response);
       throw new Error(`There's been a problem. Code: ${response.status}`);
     }
 
