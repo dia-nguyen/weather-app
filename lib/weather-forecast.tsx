@@ -1,14 +1,13 @@
 import getCurrentDay, { getCurrentDate } from "@/lib/date";
-import { GET } from "@/app/api/weather/weather";
+import { fetchWeatherData } from "@/app/api/weather/weather";
 
 export default async function fetchCurrentWeather(loc:string) {
-  const currentWeather = await GET(loc, "realtime") as CurrentWeatherProps | undefined;
+  const currentWeather = await fetchWeatherData(loc, "realtime") as CurrentWeatherProps | undefined;
 
   if(!currentWeather) {
     /**handle error */
     throw new Error("Weather data not available");
   }
-
   const { data, location } = currentWeather
 
   const currentDay = getCurrentDay(data.time)
@@ -33,7 +32,7 @@ export default async function fetchCurrentWeather(loc:string) {
 }
 
 export async function fetchWeeklyForecast(loc:string) {
-  const forecast = await GET(loc, "forecast") as WeatherTimelineProps | undefined;
+  const forecast = await fetchWeatherData(loc, "forecast") as WeatherTimelineProps | undefined;
 
   if(!forecast) {
     /**handle error */
@@ -119,7 +118,7 @@ export interface WeatherTimelineProps {
   location: LocationTypes;
 }
 
-export interface RealTimeWeatherProps extends WeatherInfoProps {
+export interface WeatherDetailsProps extends WeatherInfoProps {
   location: string;
   details: {
     precipitation: number;
@@ -135,3 +134,19 @@ export interface WeatherInfoProps {
   description: string;
   code: number;
 }
+
+export interface ForecastProps {
+  data: WeatherInfoProps[],
+  isLoading: boolean,
+  errorMsg: string,
+}
+
+export interface RealTimeWeatherProps {
+  data: WeatherDetailsProps,
+  isLoading: boolean,
+  errorMsg: string,
+}
+
+
+
+
