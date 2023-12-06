@@ -1,5 +1,22 @@
-import { NextResponse } from "next/server";
-const WEATHER_URL = "https://api.tomorrow.io/v4/weather"
+const WEATHER_URL = "https://api.tomorrow.io/v4/weather";
+
+export async function fetchWeatherData(location:string, type:string) {
+  if(location) {
+    const url = `${WEATHER_URL}/${type}?location=${location}&apikey=${process.env.WEATHER_API_KEY}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        // Return demo data for rate limit errors
+        return type === "realtime" ? DEMO_REALTIME_DATA : DEMO_FORECAST_DATA;
+      }
+      throw new Error(data.message || `Error fetching data: ${response.status}`);
+    }
+
+    return data
+  }
+}
 
 const DEMO_REALTIME_DATA = {
   "data": {
@@ -6141,37 +6158,3 @@ const DEMO_FORECAST_DATA = {
     "type": "yes"
   }
 }
-
-export async function fetchWeatherData(location:string, type:string) {
-  if(location) {
-    const url = `${WEATHER_URL}/${type}?location=${location}&apikey=${process.env.WEATHER_API_KEY}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      if (response.status === 429) {
-        // Return demo data for rate limit errors
-        return type === "realtime" ? DEMO_REALTIME_DATA : DEMO_FORECAST_DATA;
-      } else {
-        // Throw an error for other types of failed requests
-        // throw new Error(`Error fetching data: ${response.status}`);
-        const errorMsg = await response.json().then(data => data.message)
-        return errorMsg
-      }
-    }
-
-    return await response.json();
-  }
-}
-
-// export async function GET(location:string, type:string) {
-//   if(location) {
-//     if (type === "realtime") {
-//       return DEMO_REALTIME_DATA
-//     }
-
-//     if (type === "forecast") {
-//       return DEMO_FORECAST_DATA
-//     }
-//   }
-// }

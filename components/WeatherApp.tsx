@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchPhotos } from "@/app/api/weather/unsplash";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LocationInput from "./LocationInput";
 import WeeklyForecastBlocks from "./WeeklyForecastBlocks";
 import CurrentWeatherBlock from "./CurrentWeatherBlock";
@@ -38,7 +38,8 @@ import ErrorMessage from "./ErrorMessage";
  */
 
 export default function Weather() {
-  const [location, setLocation] = useState("new york");
+  const [location, setLocation] = useState("vancouver");
+  const isInitialMount = useRef(true);
   const [forecast, setForecast] = useState<ForecastProps>({
     data: DEFAULT_FORECAST,
     isLoading: true,
@@ -51,50 +52,41 @@ export default function Weather() {
     errorMsg: ''
   });
 
-  //TODO: refactor to fetch data through SSR
   useEffect(() => {
-    if(location) {
-      setRealTimeWeather(prev => ({ ...prev, isLoading: true }));
-      (async () => {
-        try {
-          const realTimeResults = await fetchCurrentWeather(location);
-          setRealTimeWeather({ data: realTimeResults, isLoading: false, errorMsg: '' });
+    if (isInitialMount.current) {
+      isInitialMount.current = false; // Set to false after first render
+    } else {
+      if (location) {
+        // Set loading states for all data types
+        setRealTimeWeather(prev => ({ ...prev, isLoading: true }));
+        setForecast(prev => ({ ...prev, isLoading: true }));
 
-        } catch (error : {message: string} | any) {
-          setRealTimeWeather({ data: DEFAULT_WEATHER, isLoading:true, errorMsg: error.message});
-        }
+        const fetchData = async () => {
+          try {
+            // Fetch all necessary data
+            const realTimeResults = await fetchCurrentWeather(location);
+            const forecastResults = await fetchWeeklyForecast(location);
+            const photoResponse = await fetchPhotos(location);
 
-      })();
+            console.log('realTimeResults',realTimeResults);
 
-      return
+            // Update state with fetched data
+            setRealTimeWeather({ data: realTimeResults, isLoading: false, errorMsg: '' });
+            setForecast({ data: forecastResults, isLoading: false, errorMsg: '' });
+            setPhoto(photoResponse.results[1].urls.full);
+          } catch (error: any) {
+            // Handle errors and update state accordingly
+            const errorMsg = error.message || 'Failed to fetch data';
+            setRealTimeWeather(prev => ({ ...prev, isLoading: false, errorMsg }));
+            setForecast(prev => ({ ...prev, isLoading: false, errorMsg }));
+          }
+        };
+
+        fetchData();
+      }
     }
-  }, [location])
+  }, [location]);
 
-  useEffect(() => {
-    if(location) {
-      setForecast(prev => ({ ...prev, isLoading: true }));
-      (async () => {
-        try {
-          const forecastResults = await fetchWeeklyForecast(location);
-          setForecast({ data: forecastResults, isLoading: false, errorMsg: '' });
-        } catch (error : { message: string} | any) {
-          setForecast({ data: DEFAULT_FORECAST, isLoading:true, errorMsg: error.message});
-        }
-      })();
-      return
-    }
-  }, [location])
-
-  useEffect(() => {
-    if(location) {
-      (async () => {
-        const photo = await fetchPhotos(location);
-        setPhoto(photo.results[1].urls.full);
-      })();
-
-      return
-    }
-  }, [location])
 
   return (
     <main className=" w-full h-screen flex  bg-cover bg-center" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(${photo})`}}>

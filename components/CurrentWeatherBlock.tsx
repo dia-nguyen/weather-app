@@ -10,7 +10,6 @@ interface CurrentWeatherProps {
 }
 
 export default function CurrentWeather({ weather }: { weather: { data: CurrentWeatherProps; isLoading: boolean, errorMsg: string } }) {
-
   if(weather.isLoading) {
     return (
       <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-transparent">
