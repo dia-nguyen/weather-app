@@ -1,9 +1,6 @@
-import WeatherApp from "@/components/WeatherApp";
+import WeatherProvider from "@/components/WeatherProvider";
+import WeatherAppV2 from "../components/WeatherAppV2";
 
-export default async function Home() {
-  return (
-    <>
-      <WeatherApp/>
-    </>
-  )
+export default function App() {
+  return <WeatherProvider><WeatherAppV2/></WeatherProvider>;
 }

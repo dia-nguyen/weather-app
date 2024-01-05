@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherInfoProps } from "@/lib/weather-forecast";
+import { WeatherInfoProps } from "@/app/lib/weather-forecast";
 
 export default function WeeklyForecast({ forecast }: { forecast: { data: WeatherInfoProps[]; isLoading: boolean; }; }) {
   if (forecast.isLoading) {

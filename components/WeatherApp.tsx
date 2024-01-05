@@ -1,12 +1,12 @@
 "use client";
 
-import { fetchPhotos } from "@/app/api/weather/unsplash";
+import { fetchPhotos } from "@/app/api/weather-deprecated/unsplash";
 import { useEffect, useState, useRef } from "react";
 import LocationInput from "./LocationInput";
 import WeeklyForecastBlocks from "./WeeklyForecastBlocks";
 import CurrentWeatherBlock from "./CurrentWeatherBlock";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
-import fetchCurrentWeather, { ForecastProps, RealTimeWeatherProps, fetchWeeklyForecast } from "@/lib/weather-forecast";
+import fetchCurrentWeather, { ForecastProps, RealTimeWeatherProps, fetchWeeklyForecast } from "@/app/lib/weather-forecast";
 import ErrorMessage from "./ErrorMessage";
 
 /**

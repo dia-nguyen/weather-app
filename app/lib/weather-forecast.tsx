@@ -1,5 +1,5 @@
-import getCurrentDay, { getCurrentDate } from "@/lib/date";
-import { fetchWeatherData } from "@/app/api/weather/weather";
+import getCurrentDay, { getCurrentDate } from "@/app/lib/date";
+import { fetchWeatherData } from "@/app/api/weather-deprecated/weather";
 
 export default async function fetchCurrentWeather(loc:string) {
   const currentWeather = await fetchWeatherData(loc, "realtime") as CurrentWeatherProps | undefined;
