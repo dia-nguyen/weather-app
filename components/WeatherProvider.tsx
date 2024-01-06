@@ -8,15 +8,17 @@ import { weatherContext } from "@/components/WeatherContext";
 
 export default function WeatherProvider({ children }: ChildrenProps) {
   const location = "San Francisco";
-  const temp = "C";
+  const [ tempUnit, setTempUnit] = useState<string>("F");
 
-  const {weather, isLoading, isError} = useFetchWeather(location as string);
+  const {weather, isLoading, isError} = useFetchWeather(location as string, tempUnit as string);
+
   return (
     <weatherContext.Provider value={{
       isLoading,
       isError,
       location,
-      temp,
+      tempUnit,
+      setTempUnit,
       weather
     } as WeatherContextProps}>
       {children}

@@ -3,38 +3,46 @@ export interface WeatherResponse {
   lon: number,
   timezone: string,
   timezone_offset: number,
-  current: {
-    dt: number,
-    temp: number,
-    feels_like: number,
-    wind_speed: number,
-    weather: [
-      id: number,
-      main: string,
-      description: string,
-      icon: string
-    ]
-  },
-  daily: DailyProps[]
+  current: CurrentProps,
+  daily: DailyProps[],
+  precipitation: number,
+  hourly: {
+    pop: number
+  }[]
 }
 
-interface DailyProps {
+export interface CurrentProps {
+  location: string,
+  dt: number,
+  temp: number,
+  windSpeed?: number,
+  wind_speed?: number,
+  humidity: number,
+  precipitation?: number,
+  weather: WeatherDetailsProps[]
+}
+
+export interface DailyProps {
   temp: {
     day: number
   },
-  weather: {
-    id: number,
-    main: string,
-    description: string,
-    icon: string
-  }[],
+  dt: number,
+  weather: WeatherDetailsProps[],
+}
+
+export interface WeatherDetailsProps {
+  id: number,
+  main: string,
+  description: string,
+  icon: string
 }
 
 export interface WeatherContextProps {
   isLoading: boolean,
   isError: boolean,
   location: string,
-  temp: string,
+  tempUnit: string,
+  setTempUnit: (unit: string)=> void,
   weather: WeatherResponse
 }
 

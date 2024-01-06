@@ -1,14 +1,13 @@
+"use client";
 
-interface CurrentWeatherDetailsProps {
-  precipitation: number,
-  humidity: number,
-  windSpeed: number,
-}
+import { weatherContext } from "./WeatherContext";
+import { useContext } from "react";
+
+export default function CurrentWeatherDetails() {
+  const { isLoading, isError, weather } = useContext(weatherContext);
 
 
-export default function CurrentWeatherDetails({ weather }: { weather: { data: { details: CurrentWeatherDetailsProps; }; isLoading: boolean; }; }) {
-  const { details } = weather.data;
-  if (weather.isLoading) {
+  if (isLoading) {
     return (
       <div className="w-full">
         <SkeletonDetailsLoader>Precipitation</SkeletonDetailsLoader>
@@ -16,7 +15,11 @@ export default function CurrentWeatherDetails({ weather }: { weather: { data: { 
         <SkeletonDetailsLoader>WindSpeed</SkeletonDetailsLoader>
       </div>
     );
-  } if (!weather.isLoading) {
+  }
+
+  if (!isLoading) {
+  const details = weather.current
+
     return (
       <div className="w-full grid grid-cols-2">
         <span>Precipitation:</span> <span className="text-right">{details.precipitation}%</span>

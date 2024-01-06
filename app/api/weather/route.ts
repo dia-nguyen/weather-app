@@ -32,6 +32,7 @@ export async function GET(request: Request) {
 
   // Parse location from searchParams
   const location = searchParams.get("location") || "";
+  const tempUnit = searchParams.get("tempUnit") || "";
 
   // If not location, return error
   if (!location) {
@@ -48,27 +49,29 @@ export async function GET(request: Request) {
       lat: lat.toString(),
       lon: lon.toString(),
       appid: WEATHER_API_KEY,
-      units: "metric"
+      units: tempUnit === "C" ? "metric" : "imperial"
     }));
 
     // deal with weather status != 200
     const forecastResponse = (await response.json()) as WeatherResponse;
 
-    const forecast = {
-      current: {
-        temp: forecastResponse.current.temp,
-        humidity: forecastResponse.current.humidity,
-        windSpeed: forecastResponse.current.wind_speed,
-        precipitation: forecastResponse.hourly[0].pop,
-        weatherDetails: forecastResponse.current.weather,
-      },
-      daily: forecastResponse.daily.map( day=> ({
-        temp: day.temp,
-        weatherDetails: day.weather
-      }))
-    }
     // check for forecast data
-    return NextResponse.json({ forecast }, { status: 200 });
+    return NextResponse.json({
+      current: {
+        location: location,
+        dt: forecastResponse.current.dt,
+        temp: Math.round(forecastResponse.current.temp),
+        windSpeed: forecastResponse.current.wind_speed,
+        humidity: forecastResponse.current.humidity,
+        precipitation: forecastResponse.hourly[0].pop,
+        weather: forecastResponse.current.weather,
+      },
+      daily: forecastResponse.daily.map(day => ({
+        temp: day.temp,
+        dt: day.dt,
+        weather: day.weather
+      }))
+    }, { status: 200 });
 
   } catch (error) {
     //handle error

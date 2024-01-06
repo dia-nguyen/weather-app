@@ -9,8 +9,8 @@ export async function fetcher(url: string) {
 /**
  * Fetch weather from /api/weather
  */
-export function useFetchWeather(location: string){
-  const { data, error } = useSWR(`/api/weather?location=${location}`, fetcher);
+export function useFetchWeather(location: string, tempUnit: string){
+  const { data, error } = useSWR(`/api/weather?location=${location}&tempUnit=${tempUnit}`, fetcher);
 
   return {
     weather: data,

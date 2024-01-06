@@ -1,16 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { formatDate, formatDayOfWeek } from "@/app/lib/helpers";
+import { weatherContext } from "./WeatherContext";
+import { useContext } from "react";
 
-interface CurrentWeatherProps {
-  location: string,
-  date: string,
-  dayOfWeek: string,
-  temperature: string,
-  description: string
-  code: number
-}
+export default function CurrentWeather() {
+  const { isLoading, isError, weather } = useContext(weatherContext);
+  // if Error load this error
 
-export default function CurrentWeather({ weather }: { weather: { data: CurrentWeatherProps; isLoading: boolean, errorMsg: string } }) {
-  if(weather.isLoading) {
+  if(isLoading) {
     return (
       <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-transparent">
         <div className="flex-grow">
@@ -26,26 +25,29 @@ export default function CurrentWeather({ weather }: { weather: { data: CurrentWe
       </div>
     )
   }
+  if(!isLoading) {
+    //current weather forecast
+    const current = weather.current;
+    const dayOfWeek = formatDayOfWeek(current.dt);
+    const currentDate = formatDate(current.dt);
 
-  if(!weather.isLoading) {
     return (
-      <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white ">
+      <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white bg-orange-500">
         <div className="flex-grow">
-          <p className="text-2xl font-bold text-shadow-sm">{weather.data.dayOfWeek}</p>
-          <p>{weather.data.date}</p>
-          <p>{weather.data.location}</p>
+          <p className="text-2xl font-bold text-shadow-sm">{dayOfWeek}</p>
+          <p>{currentDate}</p>
+          <p>{current.location}</p>
         </div>
         <div>
-          <Image src={`/assets/weather-icons/${weather.data.code}.svg`} width={50} height={50} alt={weather.data.dayOfWeek} className="invert"/>
-          <p className="text-5xl font-medium">{weather.data.temperature}</p>
-          <p className="font-medium">{weather.data.description}</p>
+
+          <Image src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`} width={50} height={50} alt={dayOfWeek}/>
+          <p className="text-5xl font-medium">{current.temp}</p>
+          <p className="font-medium">{current.weather[0].description}</p>
 
         </div>
       </div>
     )
   }
-
-
 }
 
 function SkeletonDataLoader({custom,children}:SkeletonDataLoaderProps) {

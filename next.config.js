@@ -16,5 +16,7 @@ module.exports = {
         pathname: '/**',
       },
     ],
+    domains: ['openweathermap.org'],
   },
 }
+
