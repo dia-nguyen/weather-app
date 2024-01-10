@@ -6,7 +6,7 @@ import WeeklyForecast from "./WeeklyForecastBlocks";
 export default function WeatherAppV2() {
   return (
     <main className=" w-full h-screen flex  bg-cover bg-center bg-black" >
-      <div className=" m-auto rounded-lg grid grid-cols-2 w-[750px] relative overflow-hidden shadow-lg">
+      <div className=" m-auto rounded-lg grid grid-cols-2 w-[750px] relative shadow-lg">
         <div className="relative">
           <div className="absolute w-full h-full top-0 opacity-70 bg-cover bg-center rounded-l"></div>
           <CurrentWeather />

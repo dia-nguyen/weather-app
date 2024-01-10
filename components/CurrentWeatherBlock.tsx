@@ -41,7 +41,7 @@ export default function CurrentWeather() {
         <div>
 
           <Image src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`} width={50} height={50} alt={dayOfWeek}/>
-          <p className="text-5xl font-medium">{current.temp}</p>
+          <p className="text-5xl font-medium">{current.temp}°</p>
           <p className="font-medium">{current.weather[0].description}</p>
 
         </div>

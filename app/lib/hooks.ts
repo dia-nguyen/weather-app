@@ -30,3 +30,13 @@ export function useFetchWeather(location: string, tempUnit: string){
 //   console.error('fetchWeather error:', error);
 //   return null; // or handle the error as needed
 // }
+
+export function useFetchPlaces(location: string) {
+  const {data, error} = useSWR(`/api/places?location=${location}`, fetcher)
+
+  return {
+    locations: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}

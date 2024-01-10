@@ -24,11 +24,13 @@ export interface CurrentProps {
 
 export interface DailyProps {
   temp: {
-    day: number
+    day: number,
+    dayTime?: number,
   },
   dt: number,
   weather: WeatherDetailsProps[],
 }
+
 
 export interface WeatherDetailsProps {
   id: number,
@@ -43,6 +45,7 @@ export interface WeatherContextProps {
   location: string,
   tempUnit: string,
   setTempUnit: (unit: string)=> void,
+  setLocation: (unit: string)=> void,
   weather: WeatherResponse
 }
 

@@ -24,7 +24,7 @@ export default function WeeklyForecast() {
             <div key={index} className={`p-2 text-center ${index == 1 ? "bg-[rgba(255,255,255,0.2)]" : ""}`}>
               <Image src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} width={30} height={30} alt={day.weather[0].description} />
               <p>{formatDayOfWeek(day.dt)}</p>
-              <p>{day.temp.day}</p>
+              <p>{day.temp.dayTime}°</p>
             </div>)
         ))}
       </div>
