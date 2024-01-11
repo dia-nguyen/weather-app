@@ -29,33 +29,49 @@ export default function LocationAutocomplete() {
     }
   ];
 
-  // create a list of cities from useFetchPlaces hook or fallback on default
-  const cities = !!locations && locations.length > 0 ? locations : default_cities;
-
   const handleLocationClick = (description: string, location: {}) => {
     setQuery(description);
     setLocation(location);
-  }
+  };
 
   const renderOptions = () => {
+    let cities = [];
+    if (debouncedQuery.length > 0  && !!locations && locations.length <= 0) {
+      // when no locations can be found
+      return (
+        <Combobox.Option value={null}
+          className={`text-sm text-left`}>
+          <span>No location found</span>
+        </Combobox.Option>
+      );
+    } else if (locations && locations.length > 0){
+      // list of cities from hook
+      cities = locations;
+
+    } else {
+      // default list of cities
+      cities = default_cities
+    }
+
     return (
       cities.map((location) => (
         <Combobox.Option key={location.id} value={location.city} onClick={() =>
           handleLocationClick(location.city, location)}
           className={`text-sm text-left cursor-pointer`}>
-            {({ active }) => (
-                <span
-                  className={`block truncate w-full ${
-                    active ? "" : "opacity-50"
-                  }`}
-                >
-                  {location.city}
-                </span>
-              )}
+          {({ active }) => (
+            <span
+              className={`block truncate w-full ${active ? "" : "opacity-50"
+                }`}
+            >
+              {location.city}
+            </span>
+          )}
         </Combobox.Option>
       ))
-    )
-  }
+    );
+
+
+  };
   return (
     <span className="relative w-full">
       <Combobox value={query} >
