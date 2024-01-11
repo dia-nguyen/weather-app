@@ -1,3 +1,4 @@
+import { PhotoSizesProps, UnsplashResponse } from "@/app/lib/types";
 import { NextResponse } from "next/server";
 
 const UNSPLASH_URL = "https://api.unsplash.com/search/photos";
@@ -18,13 +19,18 @@ export async function GET(request: Request) {
   try {
     const response = await fetch(UNSPLASH_URL + "?" + new URLSearchParams({
       client_id: UNSPLASH_API_KEY,
-      query: `${city}`,
+      query: `${city} city`,
     }));
 
-    const photos: UnsplashResponse = (await response.json());
-    const photo = photos.results[1].urls.full;
+    const unsplashResponse: UnsplashResponse = (await response.json());
 
-    return NextResponse.json(photo, {
+    console.log('unsplashResponse',unsplashResponse);
+    const photos = {
+      full: unsplashResponse.results[0].urls.full,
+      regular: unsplashResponse.results[0].urls.regular
+    } as PhotoSizesProps
+
+    return NextResponse.json(photos, {
       status: 200
     });
 
@@ -33,10 +39,3 @@ export async function GET(request: Request) {
   }
 }
 
-interface UnsplashResponse {
-  results: {
-    urls: {
-      full: string
-    }
-  }[]
-}

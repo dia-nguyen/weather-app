@@ -4,13 +4,12 @@ import { useState } from "react";
 import { ChildrenProps, WeatherContextProps } from "@/app/lib/types";
 import { useFetchWeather, useFetchCityscape } from "@/app/lib/hooks";
 import { weatherContext } from "@/components/WeatherContext";
-import { UNITS } from "@/app/lib/helpers";
 
 
 export default function WeatherProvider({ children }: ChildrenProps) {
   const [ location, setLocation] = useState(DEFAULT_LOCATION);
   const [ unit, setUnit ] = useState<string>("metric");
-  const { background } = useFetchCityscape(location.city);
+  const { photos } = useFetchCityscape(location.city);
   const { weather, isLoading, isError } = useFetchWeather(location.id as string, location.city as string);
 
   return (
@@ -22,7 +21,7 @@ export default function WeatherProvider({ children }: ChildrenProps) {
       unit,
       setLocation,
       weather,
-      background
+      photos
     } as WeatherContextProps}>
       {children}
     </weatherContext.Provider>

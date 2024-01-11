@@ -1,7 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { fetcher } from "./helpers";
-import { LocationProps, WeatherResponse } from "./types";
+import { LocationProps, PhotoSizesProps, WeatherResponse } from "./types";
 
 /**
  * Fetch weather from /api/weather
@@ -27,11 +27,10 @@ export function useFetchPlaces(query: string) : PlacesHookData {
   }
 }
 
-export function useFetchCityscape(query: string) {
+export function useFetchCityscape(query: string) : UnsplashHookData{
   const {data, error} = useSWR(`/api/unsplash?location=${query}`, fetcher);
-
   return {
-    background: data,
+    photos: data,
     isLoading: !error && !data,
     isError: error,
   }
@@ -39,6 +38,11 @@ export function useFetchCityscape(query: string) {
 
 interface PlacesHookData {
   locations: LocationProps[],
+  isLoading: boolean,
+  isError: boolean
+}
+interface UnsplashHookData {
+  photos: PhotoSizesProps,
   isLoading: boolean,
   isError: boolean
 }

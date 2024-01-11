@@ -86,7 +86,18 @@ export interface WeatherContextProps {
   setUnit: (unit: string) => void;
   setLocation: ({ }) => void;
   weather: WeatherResponse;
-  background: string;
+  photos: PhotoSizesProps;
+}
+
+export interface UnsplashResponse {
+  results: {
+    urls: PhotoSizesProps
+  }[]
+}
+
+export interface PhotoSizesProps {
+  full: string,
+  regular: string,
 }
 
 export interface ChildrenProps {
