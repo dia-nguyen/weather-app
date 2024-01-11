@@ -11,7 +11,7 @@ export default function WeatherProvider({ children }: ChildrenProps) {
   const [ location, setLocation] = useState(DEFAULT_LOCATION);
   const [ unit, setUnit ] = useState<string>("metric");
   const { background } = useFetchCityscape(location.city);
-  const { weather, isLoading, isError } = useFetchWeather(location.id as string, location.city as string, UNITS[unit].temp as string);
+  const { weather, isLoading, isError } = useFetchWeather(location.id as string, location.city as string);
 
   return (
     <weatherContext.Provider value={{

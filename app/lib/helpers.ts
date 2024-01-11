@@ -33,3 +33,18 @@ export const UNITS = {
 export async function fetcher(url: string) {
   return await fetch(url).then((res) => res.json())
 }
+
+/** Converts between celsius and fahrenheit */
+export function convertUnit(unit: string, value: number, type: string ) : any {
+  let convertedVal: number;
+
+  if (type === "temp") {
+    convertedVal = unit === "metric" ? value : (value * 1.8 + 32);
+    return Math.round(convertedVal);
+  }
+  if (type === "speed") {
+    convertedVal = unit === "metric" ? value : (value * 0.6214);
+    return Math.ceil(convertedVal * 100) / 100;
+  }
+
+}

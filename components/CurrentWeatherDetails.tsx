@@ -1,6 +1,6 @@
 "use client";
 
-import { UNITS } from "@/app/lib/helpers";
+import { UNITS, convertUnit } from "@/app/lib/helpers";
 import { weatherContext } from "./WeatherContext";
 import { useContext } from "react";
 
@@ -24,7 +24,7 @@ export default function CurrentWeatherDetails() {
       <div className="w-full grid grid-cols-2">
         <span>Precipitation:</span> <span className="text-right">{details.precipitation}%</span>
         <span>Humidity:</span> <span className="text-right">{details.humidity}%</span>
-        <span>Wind:</span> <span className="text-right">{details.windSpeed}{speedUnit}</span>
+        <span>Wind:</span> <span className="text-right">{convertUnit(unit,details.windSpeed,"speed")} {speedUnit}</span>
       </div>
     );
   }

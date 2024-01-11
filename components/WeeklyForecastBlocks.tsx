@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { convertUnit } from "@/app/lib/helpers";
 import { weatherContext } from "./WeatherContext";
 import { useContext } from "react";
 import { DailyWeatherProps } from "@/app/lib/types";
 import { formatDayOfWeek } from "@/app/lib/helpers";
 
 export default function WeeklyForecast() {
-  const { isLoading, isError, weather } = useContext(weatherContext);
+  const { isLoading, isError, unit, weather } = useContext(weatherContext);
   if (isLoading) {
     return (
       <ForecastSkeleton />
@@ -24,7 +25,7 @@ export default function WeeklyForecast() {
             <div key={index} className={`p-2 text-center ${index == 1 ? "bg-[rgba(255,255,255,0.2)]" : ""}`}>
               <Image src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} width={30} height={30} alt={day.weather[0].description} />
               <p>{formatDayOfWeek(day.dt)}</p>
-              <p>{day.temp.dayTime}°</p>
+              <p>{convertUnit(unit, day.temp.dayTime, "temp")}°</p>
             </div>)
         ))}
       </div>

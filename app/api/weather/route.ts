@@ -37,7 +37,6 @@ export async function GET(request: Request) {
   // Parse location from searchParams
   const placeId = searchParams.get("placeId") || "";
   const city = searchParams.get("city") || "";
-  const tempUnit = searchParams.get("tempUnit") || "";
 
   // If not location, return error
   if (!placeId) {
@@ -54,7 +53,7 @@ export async function GET(request: Request) {
       lat: lat.toString(),
       lon: lon.toString(),
       appid: WEATHER_API_KEY,
-      units: tempUnit === "C" ? "metric" : "imperial"
+      units: "metric" // metric by default, we can convert to imperial to prevent extra call
     }));
 
 

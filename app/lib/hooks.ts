@@ -6,8 +6,8 @@ import { LocationProps, WeatherResponse } from "./types";
 /**
  * Fetch weather from /api/weather
  */
-export function useFetchWeather(placeId: string, city:string, tempUnit: string) : WeatherHookData {
-  const { data, error } = useSWR(`/api/weather?placeId=${placeId}&city=${city}&tempUnit=${tempUnit}`, fetcher);
+export function useFetchWeather(placeId: string, city:string) : WeatherHookData {
+  const { data, error } = useSWR(`/api/weather?placeId=${placeId}&city=${city}`, fetcher);
 
   return {
     weather: data,
@@ -28,7 +28,6 @@ export function useFetchPlaces(query: string) : PlacesHookData {
 }
 
 export function useFetchCityscape(query: string) {
-  console.log('query',query);
   const {data, error} = useSWR(`/api/unsplash?location=${query}`, fetcher);
 
   return {
