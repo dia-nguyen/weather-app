@@ -14,20 +14,33 @@ export default function LocationAutocomplete() {
   const { setLocation } = useContext(weatherContext);
 
   const default_cities = [
-    'New York, NY, USA',
-    'Los Angeles, CA, USA',
-    'Chicago, IL, USA',
-    'Houston, TX, USA',
-    'Phoenix, AZ, USA',
+    {
+      "id": "ChIJOwg_06VPwokRYv534QaPC8g",
+      "city": "New York, NY, USA"
+    },
+    {
+      "id": "ChIJE9on3F3HwoAR9AhGJW_fL-I",
+      "city": "Los Angeles, CA, USA"
+    },
+    {
+      "id": "ChIJIQBpAG2ahYAR_6128GcTUEo",
+      "city": "San Francisco, CA, USA"
+    }
   ];
 
   // create a list of cities from useFetchPlaces hook or fallback on default
   const cities = !!locations && locations.length > 0 ? locations : default_cities;
 
+  const handleLocationClick = (description: string, location: {}) => {
+    setQuery(description);
+    setLocation(location)
+  }
+
   const renderOptions = () => {
     return (
       cities.map((location) => (
-        <Combobox.Option key={location} value={location} onClick={() => setQuery(location)}
+        <Combobox.Option key={location.id} value={location.city} onClick={() =>
+          handleLocationClick(location.city, location)}
           className={`text-sm text-left`}>
             {({ active }) => (
                 <span
@@ -35,7 +48,7 @@ export default function LocationAutocomplete() {
                     active ? "" : "opacity-50"
                   }`}
                 >
-                  {location}
+                  {location.city}
 
                 </span>
               )}
@@ -44,17 +57,15 @@ export default function LocationAutocomplete() {
     )
   }
   return (
-    <span className="relative">
-      <Combobox value={query}>
+    <span className="relative w-full">
+      <Combobox value={query} >
         <Combobox.Input onChange={((event) => setQuery(event.target.value))}
-          className="border-0 pl-3 outline-none  bg-transparent border-white col-span-3"
+          className="border-0 pl-6 outline-none w-full bg-transparent border-white "
         />
-        <Combobox.Options className="absolute top-10 w-full border border-white rounded border-opacity-20 p-2 flex flex-col gap-2">
+        <Combobox.Options className="absolute top-10 w-full border border-white rounded border-opacity-20 p-2">
           {renderOptions}
         </Combobox.Options>
       </Combobox>
-      <button className='border-l opacity-50 border-white col-span-1 pl-2 text-sm' onClick={()=>setLocation(query)}>update</button>
-
     </span>
   );
 }

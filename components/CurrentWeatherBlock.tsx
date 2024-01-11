@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { formatDate, formatDayOfWeek } from "@/app/lib/helpers";
-import { weatherContext } from "./WeatherContext";
 import { useContext } from "react";
+import { weatherContext } from "./WeatherContext";
+import { formatDate, formatDayOfWeek } from "@/app/lib/helpers";
+import { SkeletonDataLoaderProps } from "@/app/lib/types";
 
 export default function CurrentWeather() {
   const { isLoading, isError, weather } = useContext(weatherContext);
@@ -32,7 +33,7 @@ export default function CurrentWeather() {
     const currentDate = formatDate(current.dt);
 
     return (
-      <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white bg-orange-500">
+      <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white">
         <div className="flex-grow">
           <p className="text-2xl font-bold text-shadow-sm">{dayOfWeek}</p>
           <p>{currentDate}</p>
@@ -50,7 +51,7 @@ export default function CurrentWeather() {
   }
 }
 
-function SkeletonDataLoader({custom,children}:SkeletonDataLoaderProps) {
+function SkeletonDataLoader({custom,children} : SkeletonDataLoaderProps) {
   return(
     <p className={`${custom} text-shadow-sm  w-fit relative before:rounded before:content-[''] before:absolute before:top-[15%] before:w-full before:left-0 before:bg-[rgba(255,255,255,0.4)] before:backdrop-blur-sm before:h-[75%]`}>{children}</p>
   )
@@ -62,7 +63,3 @@ function SkeletonIconLoader() {
   )
 }
 
-interface SkeletonDataLoaderProps {
-  custom?: string,
-  children: string
-}

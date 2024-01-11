@@ -2,28 +2,33 @@
 
 import { useState } from "react";
 import { ChildrenProps, WeatherContextProps } from "@/app/lib/types";
-import { useFetchWeather, useFetchPlaces } from "@/app/lib/hooks";
+import { useFetchWeather } from "@/app/lib/hooks";
 import { weatherContext } from "@/components/WeatherContext";
+import { UNITS } from "@/app/lib/helpers";
 
 
 export default function WeatherProvider({ children }: ChildrenProps) {
-  const [ location, setLocation] = useState<string>("San Francisco");
-  const [ tempUnit, setTempUnit] = useState<string>("F");
+  const [ location, setLocation] = useState(DEFAULT_LOCATION);
+  const [ unit, setUnit ] = useState<string>("metric");
 
-
-  const {weather, isLoading, isError} = useFetchWeather(location as string, tempUnit as string);
+  const {weather, isLoading, isError} = useFetchWeather(location.id as string, location.city as string, UNITS[unit].temp as string);
 
   return (
     <weatherContext.Provider value={{
       isLoading,
       isError,
       location,
-      tempUnit,
-      setTempUnit,
+      setUnit,
+      unit,
       setLocation,
       weather
     } as WeatherContextProps}>
       {children}
     </weatherContext.Provider>
   );
+}
+
+const DEFAULT_LOCATION = {
+  "id": "ChIJW6c_TQPchVQR4JjVq5hIi9I",
+  "city": "Surrey, BC, Canada"
 }

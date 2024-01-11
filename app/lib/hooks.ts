@@ -1,17 +1,15 @@
 "use client";
-const BASE_URL = 'http://localhost:3001';
 import useSWR from "swr";
-
-export async function fetcher(url: string) {
-  return await fetch(url).then((res) => res.json())
-}
+import { fetcher } from "./helpers";
+import { LocationProps, WeatherResponse } from "./types";
 
 /**
  * Fetch weather from /api/weather
  */
-export function useFetchWeather(location: string, tempUnit: string){
-  const { data, error } = useSWR(`/api/weather?location=${location}&tempUnit=${tempUnit}`, fetcher);
+export function useFetchWeather(placeId: string, city:string, tempUnit: string) : WeatherHookData {
+  const { data, error } = useSWR(`/api/weather?placeId=${placeId}&city=${city}&tempUnit=${tempUnit}`, fetcher);
 
+  console.log('weather data',data);
   return {
     weather: data,
     isLoading: !error && !data,
@@ -31,8 +29,9 @@ export function useFetchWeather(location: string, tempUnit: string){
 //   return null; // or handle the error as needed
 // }
 
-export function useFetchPlaces(location: string) {
+export function useFetchPlaces(location: string) : PlacesHookData {
   const {data, error} = useSWR(`/api/places?location=${location}`, fetcher)
+  // URL does not need to be passed into fetcher as the useSWR hook calls fetcher with the URL
 
   return {
     locations: data,
@@ -40,3 +39,15 @@ export function useFetchPlaces(location: string) {
     isError: error
   }
 }
+interface PlacesHookData {
+  locations: LocationProps[],
+  isLoading: boolean,
+  isError: boolean
+}
+
+interface WeatherHookData {
+  weather: WeatherResponse,
+  isLoading: boolean,
+  isError: boolean
+}
+

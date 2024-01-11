@@ -1,12 +1,11 @@
-import { WeatherResponse } from "@/app/lib/types";
+import { WeatherResponse, OpenWeatherResponse } from "@/app/lib/types";
 import { NextResponse } from "next/server";
-export const PLACES_API_KEY = process.env.PLACES_API_KEY?.toString() || "";
-
 
 const WEATHER_API_URL = "https://api.openweathermap.org/data/3.0/onecall";
 const WEATHER_API_KEY = process.env.OPENWEATHER_API_KEY?.toString() || "";
 
-const GEOCODE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+const GEOCODE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+const PLACES_API_KEY = process.env.PLACES_API_KEY?.toString() || "";
 
 /**
  * Fetch weather data from OpenWeatherMap API
@@ -36,31 +35,20 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   // Parse location from searchParams
-  const location = searchParams.get("location") || "";
+  const placeId = searchParams.get("placeId") || "";
+  const city = searchParams.get("city") || "";
   const tempUnit = searchParams.get("tempUnit") || "";
 
   // If not location, return error
-  if (!location) {
+  if (!placeId) {
     return NextResponse.json({ error: "No Location provided" }, { status: 400 });
   }
 
-  const coordinates = await fetchCoordinates(location)
-  console.log('location',location);
-  console.log('coordinates',coordinates.results);
-  // Fall back coords
-  // let lat = 37.773972;
-  // let lon = -122.431297;
+  const coordinates = await fetchCoordinates(placeId);
 
-  // let lat = coordinates.results.geometry.location.lat
-  // let lon = coordinates.results.geometry.location.lng
+  let lat = coordinates?.results[0]?.geometry?.location?.lat;
+  let lon = coordinates.results[0]?.geometry?.location?.lng;
 
-  // console.log('lat',lat);
-  // console.log('lon',lon);
-
-  let lat = coordinates.results[0].geometry.location.lat
-  let lon = coordinates.results[0].geometry.location.lng
-  console.log('lat, lon',lat, lon);
-  // Fetch data
   try {
     const response = await fetch(WEATHER_API_URL + '?' + new URLSearchParams({
       lat: lat.toString(),
@@ -75,12 +63,11 @@ export async function GET(request: Request) {
     //TODO: deal with weather status != 200
 
     // check for forecast data
-    const forecastResponse = (await response.json()) as WeatherResponse;
+    const forecastResponse = (await response.json()) as OpenWeatherResponse;
 
-    // return formatted forecast data json
-    return NextResponse.json({
+    const weather: WeatherResponse = {
       current: {
-        location: location,
+        location: city,
         dt: forecastResponse.current.dt,
         temp: Math.round(forecastResponse.current.temp),
         windSpeed: forecastResponse.current.wind_speed,
@@ -95,7 +82,10 @@ export async function GET(request: Request) {
         dt: day.dt,
         weather: day.weather
       }))
-    }, { status: 200 });
+    }
+
+    // return formatted forecast data json
+    return NextResponse.json(weather, { status: 200 });
 
   } catch (error) {
     //handle error
@@ -103,18 +93,17 @@ export async function GET(request: Request) {
   }
 }
 
+
 async function fetchCoordinates(location: string) {
   const sanitizeLocation = encodeURI(location) || "";
 
-  console.log('sanitizeLocation',sanitizeLocation);
   try {
     const response = await fetch(GEOCODE_API_URL + "?" + new URLSearchParams({
-      address: sanitizeLocation,
+      place_id: sanitizeLocation,
       key: PLACES_API_KEY
     }))
 
     const coordinates = (await response.json())
-    console.log('response',coordinates);
 
     return coordinates
   } catch (error) {
