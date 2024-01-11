@@ -31,13 +31,14 @@ export default function CurrentWeather() {
     const current = weather.current;
     const dayOfWeek = formatDayOfWeek(current.dt);
     const currentDate = formatDate(current.dt);
+    const city = current.location.split(", ").slice(0,2).join(", ")
 
     return (
       <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-white">
         <div className="flex-grow">
           <p className="text-2xl font-bold text-shadow-sm">{dayOfWeek}</p>
           <p>{currentDate}</p>
-          <p>{current.location}</p>
+          <p>{city}</p>
         </div>
         <div>
 

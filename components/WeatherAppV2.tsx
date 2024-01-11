@@ -1,14 +1,19 @@
+"use client";
+import BackgroundLoader from "./BackgroundLoader";
 import CurrentWeather from "./CurrentWeatherBlock";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
 import UserSettings from "./UserSettings";
 import WeeklyForecast from "./WeeklyForecastBlocks";
 
 export default function WeatherAppV2() {
+
   return (
-    <main className=" w-full h-screen flex  bg-cover bg-center bg-black" >
-      <div className=" m-auto rounded-lg grid grid-cols-2 w-[750px] relative shadow-lg">
+    <main className="w-full h-screen flex bg-cover bg-center bg-neutral-900">
+      <BackgroundLoader size="full"/>
+
+      <div className="m-auto rounded-lg grid grid-cols-2 w-[750px] relative">
         <div className="relative">
-          <div className="absolute w-full h-full top-0 opacity-70 bg-cover bg-center rounded-l"></div>
+          <BackgroundLoader size="small"/>
           <CurrentWeather />
         </div>
 

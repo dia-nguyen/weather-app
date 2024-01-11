@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { weatherContext } from "./WeatherContext";
 import { useContext } from "react";
-import { DailyProps } from "@/app/lib/types";
+import { DailyWeatherProps } from "@/app/lib/types";
 import { formatDayOfWeek } from "@/app/lib/helpers";
 
 export default function WeeklyForecast() {
@@ -19,7 +19,7 @@ export default function WeeklyForecast() {
 
     return (
       <div className="grid grid-cols-6 border rounded-lg  border-[rgba(255,255,255,0.2)]">
-        {forecast.map((day: DailyProps, index: any) => (
+        {forecast.map((day: DailyWeatherProps, index: any) => (
           index >= 1 && index <= 6 && (
             <div key={index} className={`p-2 text-center ${index == 1 ? "bg-[rgba(255,255,255,0.2)]" : ""}`}>
               <Image src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} width={30} height={30} alt={day.weather[0].description} />

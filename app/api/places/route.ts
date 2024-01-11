@@ -10,18 +10,15 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   // parse location from search params
-  const location = searchParams.get("location") || "";
+  const query = searchParams.get("query") || "";
 
-  // sanitize location
-  const sanitizedLocation = encodeURI(location) || "";
-
-  if (!location) {
-    return NextResponse.json({ error: "No Location provided" }, { status: 400 });
+  if (!query) {
+    return NextResponse.json({ error: "No query provided!!" }, { status: 400 });
   }
 
   try{
     const response = await fetch( PLACES_API_URL + "?" + new URLSearchParams({
-      input: sanitizedLocation,
+      input: query,
       language: "en",
       types: "(cities)",
       key: PLACES_API_KEY,

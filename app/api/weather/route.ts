@@ -107,7 +107,6 @@ async function fetchCoordinates(location: string) {
 
     return coordinates
   } catch (error) {
-    console.log('error',error);
     // handle server error
   }
 }

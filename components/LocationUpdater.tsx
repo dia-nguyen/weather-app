@@ -8,7 +8,6 @@ import LocationAutocomplete from './LocationAutocomplete';
 
 export default function LocationUpdater() {
   const [showLocationInput, setShowLocationInput] = useState<boolean>(false);
-  //import context to set location
   const locationBtn = useRef(null);
 
   const toggleInput = () => {
@@ -28,7 +27,7 @@ export default function LocationUpdater() {
   return (
     <div className='border p-3 rounded-full w-[40px] h-[40px]' ref={locationBtn}>
       <div className='h-full relative flex items-center'>
-        <FontAwesomeIcon className='fixed' icon={faLocationArrow} onClick={toggleInput} />
+        <FontAwesomeIcon className='fixed z-10 cursor-pointer' icon={faLocationArrow} onClick={toggleInput} />
         {showLocationInput && <LocationAutocomplete />}
       </div>
     </div>

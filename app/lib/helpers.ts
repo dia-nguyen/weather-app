@@ -30,6 +30,6 @@ export const UNITS = {
 };
 
 /** Fetcher helper for useSWR */
-export async function fetcher<T>(url: string): Promise<T> {
+export async function fetcher(url: string) {
   return await fetch(url).then((res) => res.json())
 }

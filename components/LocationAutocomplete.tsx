@@ -10,6 +10,7 @@ export default function LocationAutocomplete() {
   const [query, setQuery] = useState<string>("");
   // set query to debounce 400ms then call useFetchPlaces hook with debounced query to fetch a list of prediction locations
   const [debouncedQuery] = useDebounce(query, 400);
+  //TODO: fix bug where locations is fetched w/o query
   const { locations, isLoading } = useFetchPlaces(debouncedQuery);
   const { setLocation } = useContext(weatherContext);
 
@@ -33,7 +34,7 @@ export default function LocationAutocomplete() {
 
   const handleLocationClick = (description: string, location: {}) => {
     setQuery(description);
-    setLocation(location)
+    setLocation(location);
   }
 
   const renderOptions = () => {
@@ -41,15 +42,14 @@ export default function LocationAutocomplete() {
       cities.map((location) => (
         <Combobox.Option key={location.id} value={location.city} onClick={() =>
           handleLocationClick(location.city, location)}
-          className={`text-sm text-left`}>
+          className={`text-sm text-left cursor-pointer`}>
             {({ active }) => (
                 <span
-                  className={`px-2 block truncate w-full ${
+                  className={`block truncate w-full ${
                     active ? "" : "opacity-50"
                   }`}
                 >
                   {location.city}
-
                 </span>
               )}
         </Combobox.Option>
@@ -62,8 +62,8 @@ export default function LocationAutocomplete() {
         <Combobox.Input onChange={((event) => setQuery(event.target.value))}
           className="border-0 pl-6 outline-none w-full bg-transparent border-white "
         />
-        <Combobox.Options className="absolute top-10 w-full border border-white rounded border-opacity-20 p-2">
-          {renderOptions}
+        <Combobox.Options className="absolute top-10 w-full border bg-[rgba(255,255,255,0.1)] backdrop-blur-sm flex flex-col gap-2 border-white rounded border-opacity-20 p-3">
+          {renderOptions()}
         </Combobox.Options>
       </Combobox>
     </span>
