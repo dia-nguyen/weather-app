@@ -15,6 +15,9 @@ export function useFetchWeather(placeId: string, city:string) : WeatherHookData 
   }
 }
 
+/**
+ * Fetch list of location predictions from /api/places
+ */
 export function useFetchPlaces(query: string) : PlacesHookData {
   const {data, error} = useSWR(`/api/places?query=${query}`, fetcher)
 
@@ -26,6 +29,9 @@ export function useFetchPlaces(query: string) : PlacesHookData {
   }
 }
 
+/**
+ * Fetch photos from /api/unsplash
+ */
 export function useFetchCityscape(query: string) : UnsplashHookData{
   const {data, error} = useSWR(`/api/unsplash?location=${query}`, fetcher);
 
