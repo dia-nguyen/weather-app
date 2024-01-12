@@ -40,11 +40,10 @@ export async function GET(request: Request) {
 
   // If not location, return error
   if (!placeId) {
-    return NextResponse.json({ error: "No Location provided" }, { status: 400 });
+    return NextResponse.json({ error: "No Location provided" }, { status: 500 });
   }
 
   const coordinates = await fetchCoordinates(placeId);
-
   let lat = coordinates?.results[0]?.geometry?.location?.lat;
   let lon = coordinates.results[0]?.geometry?.location?.lng;
 
@@ -56,13 +55,25 @@ export async function GET(request: Request) {
       units: "metric" // metric by default, we can convert to imperial to prevent extra call
     }));
 
-
-    //TODO: instead of refetching data just for updating the units, consider converting the data ourself.
-
-    //TODO: deal with weather status != 200
+    if (response.status != 200) {
+      return NextResponse.json({ error: response.statusText }, {
+        status: response.status,
+        statusText: response.statusText
+      });
+    }
 
     // check for forecast data
     const forecastResponse = (await response.json()) as OpenWeatherResponse;
+
+    if (!forecastResponse.current || !forecastResponse.daily) {
+      return NextResponse.json({
+        error: 'No forecast data.'
+      }, {
+        status: forecastResponse.status,
+        statusText: forecastResponse.statusText
+      });
+    }
+
 
     const weather: WeatherResponse = {
       current: {
@@ -81,14 +92,17 @@ export async function GET(request: Request) {
         dt: day.dt,
         weather: day.weather
       }))
-    }
+    };
 
     // return formatted forecast data json
-    return NextResponse.json(weather, { status: 200 });
+    return NextResponse.json(weather, {
+      status: 200,
+      statusText: 'OK',
+    });
 
   } catch (error) {
     //handle error
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500, statusText: "Internal Server Error" });
   }
 }
 
@@ -100,11 +114,11 @@ async function fetchCoordinates(location: string) {
     const response = await fetch(GEOCODE_API_URL + "?" + new URLSearchParams({
       place_id: sanitizeLocation,
       key: PLACES_API_KEY
-    }))
+    }));
 
-    const coordinates = (await response.json())
+    const coordinates = (await response.json());
 
-    return coordinates
+    return coordinates;
   } catch (error) {
     // handle server error
   }

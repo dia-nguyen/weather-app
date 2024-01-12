@@ -7,10 +7,9 @@ import { convertUnit, formatDate, formatDayOfWeek } from "@/app/lib/helpers";
 import { SkeletonDataLoaderProps } from "@/app/lib/types";
 
 export default function CurrentWeather() {
-  const { isLoading, isError, weather, unit } = useContext(weatherContext);
-  // if Error load this error
+  const { isLoading, error, weather, unit } = useContext(weatherContext);
 
-  if (isLoading) {
+  if (isLoading || error) {
     return (
       <div className="h-[300px] p-7 flex flex-col bg-whiten z-10 relative text-transparent">
         <div className="flex-grow">

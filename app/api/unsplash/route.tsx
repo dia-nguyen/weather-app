@@ -14,6 +14,10 @@ export async function GET(request: Request) {
   // do any necessary sanitizing for query
   const location = searchParams.get("location") || "";
 
+  if (!location) {
+    return NextResponse.json({ error: "No Location provided" }, { status: 500 });
+  }
+
   const city = location.split(", ").slice(0,2).join(" ");
 
   try {
@@ -24,7 +28,6 @@ export async function GET(request: Request) {
 
     const unsplashResponse: UnsplashResponse = (await response.json());
 
-    console.log('unsplashResponse',unsplashResponse);
     const photos = {
       full: unsplashResponse.results[0].urls.full,
       regular: unsplashResponse.results[0].urls.regular

@@ -12,7 +12,7 @@ export function useFetchWeather(placeId: string, city:string) : WeatherHookData 
   return {
     weather: data,
     isLoading: !error && !data,
-    isError: error,
+    error: error,
   }
 }
 
@@ -23,32 +23,39 @@ export function useFetchPlaces(query: string) : PlacesHookData {
   return {
     locations: data,
     isLoading: !error && !data,
-    isError: error,
+    error: error,
   }
 }
 
 export function useFetchCityscape(query: string) : UnsplashHookData{
   const {data, error} = useSWR(`/api/unsplash?location=${query}`, fetcher);
+
   return {
     photos: data,
     isLoading: !error && !data,
-    isError: error,
+    error: error,
   }
 }
 
 interface PlacesHookData {
   locations: LocationProps[],
   isLoading: boolean,
-  isError: boolean
+  error: {
+    message: string
+  }
 }
 interface UnsplashHookData {
   photos: PhotoSizesProps,
   isLoading: boolean,
-  isError: boolean
+  error: {
+    message: string
+  }
 }
 
 interface WeatherHookData {
   weather: WeatherResponse,
   isLoading: boolean,
-  isError: boolean
+  error: {
+    message: string
+  }
 }

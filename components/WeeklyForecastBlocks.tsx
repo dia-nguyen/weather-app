@@ -8,8 +8,8 @@ import { DailyWeatherProps } from "@/app/lib/types";
 import { formatDayOfWeek } from "@/app/lib/helpers";
 
 export default function WeeklyForecast() {
-  const { isLoading, isError, unit, weather } = useContext(weatherContext);
-  if (isLoading) {
+  const { isLoading, error, unit, weather } = useContext(weatherContext);
+  if (isLoading || error) {
     return (
       <ForecastSkeleton />
     );

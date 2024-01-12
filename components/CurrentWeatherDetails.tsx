@@ -5,9 +5,9 @@ import { weatherContext } from "./WeatherContext";
 import { useContext } from "react";
 
 export default function CurrentWeatherDetails() {
-  const { isLoading, isError, weather, unit } = useContext(weatherContext);
+  const { isLoading, error, weather, unit } = useContext(weatherContext);
 
-  if (isLoading) {
+  if (isLoading || error) {
     return (
       <div className="w-full">
         <SkeletonDetailsLoader>Precipitation</SkeletonDetailsLoader>

@@ -16,13 +16,17 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No query provided!!" }, { status: 400 });
   }
 
-  try{
-    const response = await fetch( PLACES_API_URL + "?" + new URLSearchParams({
+  try {
+    const response = await fetch(PLACES_API_URL + "?" + new URLSearchParams({
       input: query,
       language: "en",
       types: "(cities)",
       key: PLACES_API_KEY,
     }));
+
+    if (response.status != 200) {
+      return NextResponse.json({ error: "Could not fetch places"}, { status: 500 });
+    }
 
     const placesResponse: PlacesResponse = (await response.json());
 
@@ -30,11 +34,11 @@ export async function GET(request: Request) {
 
     // build list of locations
     const locations = placesResponse.predictions.map((prediction: PlacesPredictionProps) => ({
-       id: prediction.place_id,
-       city: prediction.description
-      })) as LocationProps[];
+      id: prediction.place_id,
+      city: prediction.description
+    })) as LocationProps[];
 
-    return NextResponse.json(locations,{
+    return NextResponse.json(locations, {
       status: 200,
     });
 

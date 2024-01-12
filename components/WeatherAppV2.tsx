@@ -1,7 +1,7 @@
-"use client";
 import BackgroundLoader from "./BackgroundLoader";
 import CurrentWeather from "./CurrentWeatherBlock";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
+import ErrorMessage from "./ErrorMessage";
 import UserSettings from "./UserSettings";
 import WeeklyForecast from "./WeeklyForecastBlocks";
 
@@ -25,6 +25,7 @@ export default function WeatherAppV2() {
       <UserSettings/>
 
       </div>
+      <ErrorMessage/>
     </main>
   );
 }

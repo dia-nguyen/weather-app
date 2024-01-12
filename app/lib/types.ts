@@ -25,15 +25,28 @@ export interface OpenWeatherResponse {
   hourly: {
     pop: number;
   }[];
+  status: number;
+  statusText: string;
 }
 
 export interface PlacesResponse {
-  predictions: PlacesPredictionProps[]
+  predictions: PlacesPredictionProps[],
+  status: number;
+  statusText: string;
 }
 
 export interface PlacesPredictionProps {
   place_id: string;
   description: string;
+}
+
+
+export interface UnsplashResponse {
+  results: {
+    urls: PhotoSizesProps
+  }[],
+  status: number;
+  statusText: string;
 }
 
 /** Route API response types */
@@ -80,19 +93,15 @@ export interface PredictionProps {
 
 export interface WeatherContextProps {
   isLoading: boolean;
-  isError: boolean;
+  error: {
+    message: string
+  };
   location: LocationProps;
   unit: string;
   setUnit: (unit: string) => void;
   setLocation: ({ }) => void;
   weather: WeatherResponse;
   photos: PhotoSizesProps;
-}
-
-export interface UnsplashResponse {
-  results: {
-    urls: PhotoSizesProps
-  }[]
 }
 
 export interface PhotoSizesProps {

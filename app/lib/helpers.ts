@@ -31,8 +31,28 @@ export const UNITS = {
 
 /** Fetcher helper for useSWR */
 export async function fetcher(url: string) {
-  return await fetch(url).then((res) => res.json())
+  const response = await fetch(url);
+
+  // Check for successful HTTP status codes (e.g., 200)
+  if (!response.ok) {
+
+    if(response.status === 401) {
+      throw new Error("Unauthorized action. API key may be invalid.");
+
+    } else {
+      throw new Error(`${response.statusText}`);
+    }
+  }
+
+  try {
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error('Failed to parse JSON response');
+  }
 }
+
+
 
 /** Converts between celsius and fahrenheit */
 export function convertUnit(unit: string, value: number, type: string ) : any {

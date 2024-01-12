@@ -27,7 +27,7 @@ export default function LocationUpdater() {
   return (
     <div className='border p-3 rounded-full w-[40px] h-[40px]' ref={locationBtn}>
       <div className='h-full relative flex items-center'>
-        <FontAwesomeIcon className='fixed z-10 cursor-pointer' icon={faLocationArrow} onClick={toggleInput} />
+        <FontAwesomeIcon className='z-10 cursor-pointer' icon={faLocationArrow} onClick={toggleInput} />
         {showLocationInput && <LocationAutocomplete />}
       </div>
     </div>
