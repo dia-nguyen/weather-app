@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "";
 
   if (!query) {
-    return NextResponse.json({ error: "No query provided!!" }, { status: 400 });
+    return NextResponse.json({ error: "Places: No query provided" }, { status: 500 });
   }
 
   try {
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     }));
 
     if (response.status != 200) {
-      return NextResponse.json({ error: "Could not fetch places"}, { status: 500 });
+      return NextResponse.json({ error: "Places: Could not fetch places"}, { status: 500 });
     }
 
     const placesResponse: PlacesResponse = (await response.json());
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
   } catch (error) {
     // return server error
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Places: Internal Server Error" }, { status: 500 });
   }
 
 }

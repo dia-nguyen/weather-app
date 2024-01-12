@@ -96,6 +96,10 @@ export interface WeatherContextProps {
   error: {
     message: string
   };
+  photoIsLoading: boolean;
+  photosError: {
+    message: string
+  };
   location: LocationProps;
   unit: string;
   setUnit: (unit: string) => void;

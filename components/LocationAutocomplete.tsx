@@ -76,7 +76,7 @@ export default function LocationAutocomplete() {
     <span className="relative w-full">
       <Combobox value={query} >
         <Combobox.Input onChange={((event) => setQuery(event.target.value))}
-          className="border-0 pl-6 outline-none w-full bg-transparent border-white "
+          className="border-0 pl-4 outline-none w-full bg-transparent border-white "
         />
         <Combobox.Options className="absolute top-10 w-full border bg-[rgba(255,255,255,0.1)] backdrop-blur-sm flex flex-col gap-2 border-white rounded border-opacity-20 p-3">
           {renderOptions()}

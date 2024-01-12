@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
   // If not location, return error
   if (!placeId) {
-    return NextResponse.json({ error: "No Location provided" }, { status: 500 });
+    return NextResponse.json({ error: "Weather: No Location provided" }, { status: 500 });
   }
 
   const coordinates = await fetchCoordinates(placeId);
@@ -65,16 +65,7 @@ export async function GET(request: Request) {
     // check for forecast data
     const forecastResponse = (await response.json()) as OpenWeatherResponse;
 
-    if (!forecastResponse.current || !forecastResponse.daily) {
-      return NextResponse.json({
-        error: 'No forecast data.'
-      }, {
-        status: forecastResponse.status,
-        statusText: forecastResponse.statusText
-      });
-    }
-
-
+    // format forecast data
     const weather: WeatherResponse = {
       current: {
         location: city,
@@ -102,7 +93,7 @@ export async function GET(request: Request) {
 
   } catch (error) {
     //handle error
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500, statusText: "Internal Server Error" });
+    return NextResponse.json({ error: "Weather: Internal Server Error" }, { status: 500, statusText: "Internal Server Error" });
   }
 }
 
@@ -120,6 +111,6 @@ async function fetchCoordinates(location: string) {
 
     return coordinates;
   } catch (error) {
-    // handle server error
+    return NextResponse.json({error: "Weather: Could not fetch coordinates"}, { status: 500 })
   }
 }

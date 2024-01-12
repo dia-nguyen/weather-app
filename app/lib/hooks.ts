@@ -1,4 +1,3 @@
-"use client";
 import useSWR from "swr";
 import { fetcher } from "./helpers";
 import { LocationProps, PhotoSizesProps, WeatherResponse } from "./types";

@@ -7,7 +7,7 @@ import { weatherContext } from "@/components/WeatherContext";
 
 
 export default function WeatherProvider({ children }: ChildrenProps) {
-  const [ location, setLocation] = useState(DEFAULT_LOCATION);
+  const [ location, setLocation ] = useState(DEFAULT_LOCATION);
   const [ unit, setUnit ] = useState<string>("metric");
   const { photos } = useFetchCityscape(location.city);
   const { weather, isLoading, error } = useFetchWeather(location.id as string, location.city as string);
@@ -29,6 +29,6 @@ export default function WeatherProvider({ children }: ChildrenProps) {
 }
 
 const DEFAULT_LOCATION = {
-  "id": "ChIJW6c_TQPchVQR4JjVq5hIi9I",
-  "city": "Surrey, BC, Canada"
+  "id": "ChIJIQBpAG2ahYAR_6128GcTUEo",
+  "city": "San Francisco, CA, USA"
 }

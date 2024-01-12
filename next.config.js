@@ -4,8 +4,9 @@ const nextConfig = {}
 module.exports = {
   reactStrictMode: false,
   env: {
-    UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
+    UNSPLASH_API_KEY: process.env.UNSPLASH_API_KEY,
     WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    PLACES_API_KEY: process.env.PLACES_API_KEY,
   },
   images: {
     remotePatterns: [
