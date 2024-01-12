@@ -1,9 +1,10 @@
-import WeatherApp from "@/components/WeatherApp";
+import WeatherProvider from "@/components/WeatherProvider";
+import WeatherApp from "../components/WeatherApp";
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
 
-export default async function Home() {
-  return (
-    <>
-      <WeatherApp/>
-    </>
-  )
+
+export default function App() {
+  return <WeatherProvider><WeatherApp/></WeatherProvider>;
 }

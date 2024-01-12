@@ -1,22 +1,32 @@
-import Image from "next/image";
-import { WeatherInfoProps } from "@/lib/weather-forecast";
+"use client";
 
-export default function WeeklyForecast({ forecast }: { forecast: { data: WeatherInfoProps[]; isLoading: boolean; }; }) {
-  if (forecast.isLoading) {
+import Image from "next/image";
+import { convertUnit } from "@/app/lib/helpers";
+import { weatherContext } from "./WeatherContext";
+import { useContext } from "react";
+import { DailyWeatherProps } from "@/app/lib/types";
+import { formatDayOfWeek } from "@/app/lib/helpers";
+
+export default function WeeklyForecast() {
+  const { isLoading, error, unit, weather } = useContext(weatherContext);
+  if (isLoading || error) {
     return (
       <ForecastSkeleton />
     );
   }
 
-  if (!forecast.isLoading) {
+  if (!isLoading) {
+    const forecast = weather.daily;
+
     return (
       <div className="grid grid-cols-6 border rounded-lg  border-[rgba(255,255,255,0.2)]">
-        {forecast.data.map((day: WeatherInfoProps, index: any) => (
-          <div key={index} className={`p-2 text-center ${index == 0 ? "bg-[rgba(255,255,255,0.2)]" : ""}`}>
-            <Image src={`/assets/weather-icons/${day.code}.svg`} width={30} height={30} alt={day.dayOfWeek} className="invert" />
-            <p>{day.dayOfWeek}</p>
-            <p>{day.temperature}</p>
-          </div>
+        {forecast.map((day: DailyWeatherProps, index: any) => (
+          index >= 1 && index <= 6 && (
+            <div key={index} className={`p-2 text-center ${index == 1 ? "bg-[rgba(255,255,255,0.2)]" : ""}`}>
+              <Image src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} width={30} height={30} alt={day.weather[0].description} />
+              <p>{formatDayOfWeek(day.dt)}</p>
+              <p>{convertUnit(unit, day.temp.dayTime, "temp")}°</p>
+            </div>)
         ))}
       </div>
     );

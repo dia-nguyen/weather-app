@@ -2,10 +2,11 @@
 const nextConfig = {}
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
-    UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
-    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    UNSPLASH_API_KEY: process.env.UNSPLASH_API_KEY,
+    OPENWEATHER_API_KEY: process.env.OPENWEATHER_API_KEY,
+    PLACES_API_KEY: process.env.PLACES_API_KEY,
   },
   images: {
     remotePatterns: [
@@ -16,5 +17,7 @@ module.exports = {
         pathname: '/**',
       },
     ],
+    domains: ['openweathermap.org'],
   },
 }
+
