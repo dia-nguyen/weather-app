@@ -41,7 +41,7 @@ export default function CurrentWeather() {
         </div>
         <div>
 
-          <Image src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`} width={50} height={50} alt={dayOfWeek} />
+        <Image src={`/assets/weather-icons/${current.weather[0].icon}.svg`} width={50} height={50} alt={dayOfWeek} className="invert"/>
           <p className="text-5xl font-medium">{convertUnit(unit, current.temp, "temp")}°</p>
           <p className="font-medium">{current.weather[0].description}</p>
 
@@ -59,7 +59,7 @@ function SkeletonDataLoader({ custom, children }: SkeletonDataLoaderProps) {
 
 function SkeletonIconLoader() {
   return (
-    <span className="relative w-[50px] inline-block before:rounded before:content-[''] before:absolute before:top-0 before:w-full before:left-0 before:bg-[rgba(255,255,255,0.4)] before:backdrop-blur-sm before:h-full"><Image src={`/assets/weather-icons/1001.svg`} width={50} height={50} alt="preview" className="relative opacity-0" /></span>
+    <span className="relative w-[50px] inline-block before:rounded before:content-[''] before:absolute before:top-0 before:w-full before:left-0 before:bg-[rgba(255,255,255,0.4)] before:backdrop-blur-sm before:h-full"><Image src={`/assets/weather-icons/01d.svg`} width={50} height={50} alt="preview" className="relative opacity-0" /></span>
   );
 }
 
