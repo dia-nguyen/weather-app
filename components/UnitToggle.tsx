@@ -4,7 +4,17 @@ import { useContext } from 'react';
 import { weatherContext } from './WeatherContext';
 import { UNITS } from '@/app/lib/helpers';
 
-export default function UnitUpdater() {
+/**
+ * UnitToggle Component
+ *
+ * A component that allows for toggle between metric and imperial units.
+ * Displays C or F for units.
+ *
+ * Data & methods from weather context:
+ * - `unit`: unit of measurement ("metric" or "imperial")
+ * - `setUnit`: a setter for unit
+ */
+export default function UnitToggle() {
   const { unit, setUnit } = useContext(weatherContext);
 
   const handleSetUnit = () => {

@@ -1,12 +1,23 @@
 import BackgroundLoader from "./BackgroundLoader";
-import CurrentWeather from "./CurrentWeatherBlock";
+import CurrentWeather from "./CurrentWeather";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
 import ErrorMessage from "./ErrorMessage";
 import UserSettings from "./UserSettings";
-import WeeklyForecast from "./WeeklyForecastBlocks";
+import WeeklyForecast from "./WeeklyForecast";
 
+/**
+ * WeatherApp Component
+ *
+ * Main interface component of the weather app that displays weather forecast related components
+ *
+ * Components Rendered:
+ * - CurrentWeather: Displays current location's weather information
+ * - CurrentWeatherDetails: Displays additional details for current location's weather
+ * - WeeklyForecast: Displays current location's weekly forecast
+ * - UserSettings: Displays user setting locations including location input and unit toggler
+ * - BackgroundLoader: Loads background photo relating to current location
+ */
 export default function WeatherApp() {
-
   return (
     <main className="w-full h-screen flex bg-cover bg-center bg-neutral-900">
       <BackgroundLoader size="full"/>

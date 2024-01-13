@@ -7,6 +7,19 @@ import { useContext } from "react";
 import { DailyWeatherProps } from "@/app/lib/types";
 import { formatDayOfWeek } from "@/app/lib/helpers";
 
+/**
+ * WeeklyForecast Component
+ *
+ * Component for displaying current selected location's weekly forecast including weather icon, day of week and temp
+ * Displays a UI skeleton while weather data is loading or cannot be fetched properly
+ *
+ * Data from weather context:
+ *  - `weather`: weather data for selected location
+ *  - `unit`: unit of measurement for temperature and wind speed (metric or imperial)
+ *  - `isLoading`: indicates whether if weather data is currently being fetched
+ *  - `error`: error data if an issue with fetching weather data occurs
+ *
+ */
 export default function WeeklyForecast() {
   const { isLoading, error, unit, weather } = useContext(weatherContext);
   if (isLoading || error) {
@@ -31,7 +44,13 @@ export default function WeeklyForecast() {
     );
   }
 }
-
+/**
+ * ForecastSkeleton
+ * Displays a UI skeleton where forecast data should be displayed
+ *
+ * Props:
+ *  - `children`
+ */
 function ForecastSkeleton() {
   return (
     <div className="grid grid-cols-6 border rounded  border-[rgba(255,255,255,0.2)]">

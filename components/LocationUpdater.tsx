@@ -6,6 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gsap from 'gsap';
 import LocationAutocomplete from './LocationAutocomplete';
 
+/**
+ * LocationUpdater Component
+ *
+ * Component displaying a toggler for the location input and the input itself
+ * Toggling will animate the input into view and out
+ *
+ * Renders LocationAutocomplete component
+ */
 export default function LocationUpdater() {
   const [showLocationInput, setShowLocationInput] = useState<boolean>(false);
   const locationBtn = useRef(null);

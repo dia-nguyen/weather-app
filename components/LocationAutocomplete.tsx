@@ -6,6 +6,22 @@ import { Combobox } from "@headlessui/react";
 import { useDebounce } from "use-debounce";
 import { weatherContext } from "./WeatherContext";
 
+/**
+ * LocationAutocomplete Component
+ *
+ * The LocationAutocomplete component provides an input field with autocomplete functionality
+ * for selecting a location. It allows users to search for locations and choose from a list of suggestions.
+ *
+ * Features:
+ * - Input field with debounced search to fetch location predictions.
+ * - Displays a list of location options based on user input.
+ * - Allows users to click on an option to select a location.
+ *
+ * Dependencies:
+ * - Uses the `useFetchPlaces` hook to fetch location predictions based on the user's input.
+ * - Integrates with the `weatherContext` to set the selected location.
+ *
+ */
 export default function LocationAutocomplete() {
   const [query, setQuery] = useState<string>("");
   // set query to debounce 400ms then call useFetchPlaces hook with debounced query to fetch a list of prediction locations

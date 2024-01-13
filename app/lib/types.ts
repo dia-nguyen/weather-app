@@ -96,7 +96,7 @@ export interface WeatherContextProps {
   error: {
     message: string
   };
-  photoIsLoading: boolean;
+  photosIsLoading: boolean;
   photosError: {
     message: string
   };
@@ -117,7 +117,7 @@ export interface ChildrenProps {
   children: React.ReactNode;
 }
 
-export interface SkeletonDataLoaderProps {
-  custom?: string;
+export interface WeatherDataSkeletonProps {
+  customStyle?: string;
   children: string
 }
