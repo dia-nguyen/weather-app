@@ -19,7 +19,7 @@ Simple weather app using Next.js OpenWeatherMap API, Google Maps API, and Unspla
 - Minor bugs
 
 ## Component Design
-![Screen Shot 2024-01-12 at 11 05 04 PM](https://github.com/dia-nguyen/weather-app/assets/40869031/7d76d70d-ae44-4a4c-a6c7-ff817f410e61)
+![Screen Shot 2024-01-14 at 11 51 22 AM](https://github.com/dia-nguyen/weather-app/assets/40869031/85ad30a8-b4bc-4f36-b379-7918dc831714)
 
 ### Learnings
 - Developing route handlers to manage custom API calls
